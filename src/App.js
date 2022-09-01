@@ -25,7 +25,7 @@ function App() {  // componente
   return (
     <BrowserRouter>
 
-      <Header />
+      <Header token={token} />
 
       <Routes>
         <Route index element={<Home/ >} />

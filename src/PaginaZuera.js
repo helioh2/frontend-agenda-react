@@ -39,7 +39,7 @@ function PaginaZuera() {  // componente
         <Contador />
 
 
-        <Pokemon nome="charizard" />
+        <Pokemon nome="snorlax" />
 
       </header>
     </div>
