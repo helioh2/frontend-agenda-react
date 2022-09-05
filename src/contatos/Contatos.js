@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,40 +10,14 @@ export function Contatos(props) {
     const [pageCount, setPageCount] = useState(0)
     const [page, setPage] = useState(0)
     const navigate = useNavigate()
+    const [busca, setBusca] = useState("")
 
-    useEffect(() => {
-        if (props.token) {
-            let url = "http://localhost:5000/contatos"
-            fetch(url,
-                {
-                    method: "GET",
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer '+props.token
-                    },
-                })
-                .then(res => {
-                    if (res.ok){
-                        return res.json()
-                    } else {
-                        console.log("ERRO NA LISTAGEM DE CONTATOS") //TODO: melhorar tratamento de erro
-                    }
-                })
-                .then(json => {
-                    console.log(json)
-                    setPageCount(json.pages)
-                    setPage(json.page)
-                    setContatos(json.items)
-                })
-        } else {
-            navigate("/login")
-        }
-    }, [props, setContatos, navigate])
-
-
-    function fetchContatos(page) {
+    const fetchContatos = useCallback((page=1) => {
         if (props.token) {
             let url = `http://localhost:5000/contatos?page=${page}`
+            if (busca) {
+                url += "&nome="+busca
+            }
             fetch(url,
                 {
                     method: "GET",
@@ -68,7 +42,12 @@ export function Contatos(props) {
         } else {
             navigate("/login")
         }
-    }
+    }, [props, setContatos, navigate, setPage, setPageCount, busca])
+
+    useEffect(() => {
+        fetchContatos()
+    }, [fetchContatos])
+
 
     function handlePageClick(event) {
         let page = event.selected + 1
@@ -76,9 +55,23 @@ export function Contatos(props) {
         fetchContatos(page)
     }
 
+    function buscar(event) {
+        let buscaStr = event.target.value
+        setBusca(buscaStr)
+        fetchContatos()
+    }
+
     return (
         <div>
             <h1>Lista de contatos</h1>
+            <form class="form-group">
+                <label for="busca">Busca: </label>
+                <input onChange={buscar} 
+                    value={busca}
+                    type="text" 
+                    className={"form-control"} 
+                    id="busca" name="busca"/>
+            </form>
             <table className="table table-striped">
                 <thead>
                 <tr> <th>Nome</th> <th>Telefone</th> <th>Data de Nascimento</th></tr>
@@ -118,6 +111,11 @@ export function Contatos(props) {
                 breakClassName ={"page-item"}
                 breakLinkClassName ={"page-link"}
             />  
+
+            <Link to="/adicionar_contato">Adicionar Contato</Link>
         </div>
+
+        
+
     )
 }

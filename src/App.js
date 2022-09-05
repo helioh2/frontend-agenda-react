@@ -13,6 +13,7 @@ import { Header } from './Header';
 import { Cadastro } from './autenticacao/Cadastro';
 import useToken from './useToken';
 import PaginaZuera from './PaginaZuera';
+import { useEffect } from 'react';
 
 export function Car(props) {
   return <h2 style={{color:props.color}}>I am a {props.color} Car! Meu nome é {props.nome}</h2>;
@@ -21,6 +22,27 @@ export function Car(props) {
 function App() {  // componente
 
   const { token, removeToken, setToken } = useToken();
+
+  useEffect(() => {
+
+    const enviaVerificacao = async () => {
+      const response = await fetch("http://localhost:5000/token",
+      {
+        method: "GET",
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+        }
+      });
+      if (!response.ok) {  //erro
+        removeToken()
+      }
+    }
+
+    enviaVerificacao().catch((error) => {removeToken()})
+    
+    
+  }, [token, removeToken])
 
   return (
     <BrowserRouter>
