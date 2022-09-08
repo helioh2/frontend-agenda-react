@@ -62,6 +62,7 @@ export function CadastrarContato(props) {
         let url_base = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL: "http://localhost:5000";
         let id_contato = searchParams.get("id")
         let url = `${url_base}/contatos/${id_contato}`
+        let method = "POST"
         if (contato.id) {
             method = "PATCH";
             url += `/${contato.id}`;
