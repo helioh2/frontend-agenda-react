@@ -8,15 +8,16 @@ export function Contatos(props) {
 
     const [contatos, setContatos] = useState([])
     const [pageCount, setPageCount] = useState(0)
-    const [page, setPage] = useState(0)
+    // const [page, setPage] = useState(0)
     const navigate = useNavigate()
     const [busca, setBusca] = useState("")
 
     const fetchContatos = useCallback((page=1) => {
         if (props.token) {
             let url = `http://localhost:5000/contatos?page=${page}`
-            if (busca) {
+            if (busca) {   // se variável busca não é uma string vazia
                 url += "&nome="+busca
+                //ex: http://localhost:5000/contatos?page=1&nome=Ad
             }
             fetch(url,
                 {
@@ -36,28 +37,29 @@ export function Contatos(props) {
                 .then(json => {
                     console.log(json)
                     setPageCount(json.pages)
-                    setPage(json.page)
+                    // setPage(json.page)
                     setContatos(json.items)
                 })
         } else {
             navigate("/login")
         }
-    }, [props, setContatos, navigate, setPage, setPageCount, busca])
+    }, [props, setContatos, navigate, setPageCount, busca])
 
     useEffect(() => {
-        fetchContatos()
+        fetchContatos()   //default page=1
     }, [fetchContatos])
 
 
     function handlePageClick(event) {
         let page = event.selected + 1
-        setPage(page)
+        // setPage(page)
         fetchContatos(page)
     }
 
     function buscar(event) {
         let buscaStr = event.target.value
         setBusca(buscaStr)
+        // TODO: Forçar o componente de paginação a voltar para a primeira página
         fetchContatos()
     }
 
@@ -67,7 +69,8 @@ export function Contatos(props) {
             <form class="form-group">
                 <label for="busca">Busca: </label>
                 <input onChange={buscar} 
-                    value={busca}
+                    // Binding (vinculação) com a variável 'busca':
+                    value={busca}   
                     type="text" 
                     className={"form-control"} 
                     id="busca" name="busca"/>
@@ -83,7 +86,8 @@ export function Contatos(props) {
                             <td>{contato.nome}</td>
                             <td>{contato.telefone}</td>
                             <td>{contato.data_nascimento}</td>
-                            <td><Link to={"/remover_contato?id="+contato.id}>Remover</Link></td>
+                            <td><Link to={"/remover_contato?id="+contato.id}>Remover</Link></td> 
+                            {/* TODO: Substituir link para remoção por botão que faz a remoção no próprio componente Contatos */}
                             <td><Link to={"/alterar_contato?id="+contato.id}>Alterar</Link></td>
                         </tr>
                     )

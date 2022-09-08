@@ -18,7 +18,7 @@ export function Header(props) {
             <Link className="nav-link" to="/login">Login</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/cadastrar">Cadastrar-se</Link>
+            <Link className="nav-link" to="/cadastro">Cadastrar-se</Link>
           </li>
         </>
         )

@@ -9,7 +9,7 @@ export function CadastrarContato(props) {
             id: null,
             nome: '',
             telefone: '',
-            data_nascimento: null,
+            dataNascimento: null,
             detalhes: '',
         }
     )
@@ -37,6 +37,10 @@ export function CadastrarContato(props) {
                 })
                 .then(json => {
                     setContato(json)
+                    setContato(anterior => ({
+                        ...anterior, dataNascimento: json.data_nascimento
+                    }))  // Corrigindo nome da data de nascimento ("data_nascimento -> dataNascimento")
+
                 })
                 .catch((error) => {
                     if (error.response) {
@@ -103,7 +107,7 @@ export function CadastrarContato(props) {
     }
 
     return (<>
-        <form className="cadastrar_contato ">
+        <form className="form-group">
             <input type="text" id="id" name="id" value={contato.id ? contato.id : ''} hidden={true} readOnly />
 
             <label>Nome: </label>
@@ -115,8 +119,8 @@ export function CadastrarContato(props) {
                 maxLength="12" /> {erros && erros.telefone ? erros.telefone : ''}<br />
 
             <label>Data de nascimento: </label>
-            <input onChange={handleChange} type="date" id="data_nascimento" name="data_nascimento"
-                value={contato.data_nascimento ? contato.data_nascimento : ''} /><br />
+            <input onChange={handleChange} type="date" id="data_nascimento" name="dataNascimento"
+                value={contato.dataNascimento ? contato.dataNascimento : ''} /><br />
 
             <label>Detalhes: </label>
             <textarea onChange={handleChange} id="detalhes" name="detalhes" rows="4" cols="50" value={contato.detalhes ? contato.detalhes : ''}></textarea><br />

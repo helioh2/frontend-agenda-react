@@ -13,8 +13,8 @@ export function Login(props) {
     const navigate = useNavigate();
 
     function logar(event) {
-        console.log("LOGANDO!!!")
-        console.log(loginForm)
+        // console.log("LOGANDO!!!")
+        // console.log(loginForm)
 
         let url = "http://localhost:5000/token"
 
@@ -62,7 +62,7 @@ export function Login(props) {
     return (
     <div>
       <h1>Login</h1>
-      <form className="login">
+      <form className="form-group">
         <input onChange={handleChange}
           type="text"
           text={loginForm.username}
