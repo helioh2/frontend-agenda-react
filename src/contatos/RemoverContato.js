@@ -9,7 +9,8 @@ export function RemoverContato(props) {
     useEffect(() => {
         if (searchParams.has("id")) {
             let id_contato = searchParams.get("id")
-            let url = `http://localhost:5000/contatos/${id_contato}`
+            let url_base = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL: "http://localhost:5000";
+            let url = `${url_base}/contatos/${id_contato}`
             fetch(url,
                 {
                     method: "DELETE",

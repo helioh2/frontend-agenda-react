@@ -14,7 +14,8 @@ export function Contatos(props) {
 
     const fetchContatos = useCallback((page=1) => {
         if (props.token) {
-            let url = `http://localhost:5000/contatos?page=${page}`
+            let url_base = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL: "http://localhost:5000";
+            let url = `${url_base}/contatos?page=${page}`
             if (busca) {   // se variável busca não é uma string vazia
                 url += "&nome="+busca
                 //ex: http://localhost:5000/contatos?page=1&nome=Ad

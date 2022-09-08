@@ -16,7 +16,8 @@ export function Cadastro(props) {
         console.log("LOGANDO!!!")
         console.log(usuario)
 
-        let url = "http://localhost:5000/usuarios"
+        let url_base = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL: "http://localhost:5000";
+        let url = `${url_base}/usuarios`
 
         fetch(url,
             {

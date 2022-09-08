@@ -15,8 +15,8 @@ export function Login(props) {
     function logar(event) {
         // console.log("LOGANDO!!!")
         // console.log(loginForm)
-
-        let url = "http://localhost:5000/token"
+        let url_base = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL: "http://localhost:5000";
+        let url = `${url_base}/token`
 
         fetch(url,
             {

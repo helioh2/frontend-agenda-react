@@ -18,10 +18,10 @@ export function CadastrarContato(props) {
 
     useEffect(() => {
         if (searchParams.has("id")) {
+            let url_base = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL: "http://localhost:5000";
             let id_contato = searchParams.get("id")
-            let endpoint = "contatos";
-            let api_host = process.env.API_HOST ? process.env.API_HOST : "localhost:5000";
-            fetch(`http://${api_host}/${endpoint}/${id_contato}`, {
+            let url = `${url_base}/contatos/${id_contato}`
+            fetch(url, {
                 method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + props.token,

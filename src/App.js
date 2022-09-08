@@ -26,7 +26,10 @@ function App() {  // componente
   useEffect(() => {
 
     const enviaVerificacao = async () => {
-      const response = await fetch("http://localhost:5000/token",
+      let url_base = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL: "http://localhost:5000";
+      let url = `${url_base}/token`
+      console.log("url api: ", process.env.REACT_APP_API_URL)
+      const response = await fetch(url,
       {
         method: "GET",
         headers: { 
