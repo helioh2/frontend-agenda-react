@@ -9,7 +9,7 @@ export function CadastrarContato(props) {
             id: null,
             nome: '',
             telefone: '',
-            dataNascimento: null,
+            data_nascimento: null,
             detalhes: '',
         }
     )
@@ -37,9 +37,9 @@ export function CadastrarContato(props) {
                 })
                 .then(json => {
                     setContato(json)
-                    setContato(anterior => ({
-                        ...anterior, dataNascimento: json.data_nascimento
-                    }))  // Corrigindo nome da data de nascimento ("data_nascimento -> dataNascimento")
+                    // setContato(anterior => ({
+                    //     ...anterior, data_nascimento: json.data_nascimento
+                    // }))
 
                 })
                 .catch((error) => {
@@ -62,6 +62,7 @@ export function CadastrarContato(props) {
         let url_base = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL: "http://localhost:5000";
         let url = `${url_base}/contatos`
         let method = "POST"
+        
         if (contato.id) {
             method = "PATCH";
             url += `/${contato.id}`;
@@ -118,8 +119,8 @@ export function CadastrarContato(props) {
                 maxLength="12" /> {erros && erros.telefone ? erros.telefone : ''}<br />
 
             <label>Data de nascimento: </label>
-            <input onChange={handleChange} type="date" id="data_nascimento" name="dataNascimento"
-                value={contato.dataNascimento ? contato.dataNascimento : ''} /><br />
+            <input onChange={handleChange} type="date" id="data_nascimento" name="data_nascimento"
+                value={contato.data_nascimento ? contato.data_nascimento : ''} /><br />
 
             <label>Detalhes: </label>
             <textarea onChange={handleChange} id="detalhes" name="detalhes" rows="4" cols="50" value={contato.detalhes ? contato.detalhes : ''}></textarea><br />
